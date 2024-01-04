@@ -10,7 +10,7 @@ import { ParticleGame } from 'src/app/shared/ParticleGame';
 export class ParticleComponent implements AfterViewInit {
   private context: CanvasRenderingContext2D;
   private canvas: any;
-  private canvasSize: number = 512;
+  private canvasSize: number = 256;
   private squareSize: number = this.canvasSize / 8;
   private game: ParticleGame;
 
