@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="nav">
+        <div class="nav-item">New Game</div>
+        <div class="nav-item">Load Game</div>
+        <div class="nav-item">Save Game</div>
+        <div class="nav-item">Rules</div>
+        <div class="nav-item">More</div>
+    </div>
+    <div class="splash">
+        <div>Some fancy logo!</div>
+    </div>
+    <div class="body">
+        <div class="container">
+            <!-- <div class="button" (click)='startTimer()'>Start Timer</div>
+            <div class="button" (click)='pauseTimer()'>Pause</div> -->
+            <div class="button" (click)='doShowAnswer()'>Show Path</div>
+            <!-- <p>{{ timeLeft }} Seconds Left....</p> -->
+        </div>
+        <div>Yellow: {{ getLeastCostPath() }}</div>
+        <div>Red: {{ getOpLeastCostPath() }}</div>        
+        <div id="gameboard">
+            <div *ngFor="let vertex of getBoard(); index as i;"
+                [ngClass]="[
+                    'tile', vertex.getClass(),
+                    isSource(i, vertex) ? 'source' : '',
+                    isSink(i, vertex) ? 'sink' : '' ,
+                    leastCostPathCheck(i, vertex) ? 'path' : '',
+                    isVisited(i, vertex) ? 'visited' : '',
+                    isOpSource(i, vertex) ? 'opSource' : '',
+                    opLeastCostPathCheck(i, vertex) ? 'opPath' : '',
+                    isOpVisited(i, vertex) ? 'opVisited' : ''
+                    ]"
+                (click)="click(i, vertex)">
+                <!-- <p>{{ vertex.getType() }}</p> -->
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div></div>
+    </div>
+</div>

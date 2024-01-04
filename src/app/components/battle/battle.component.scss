@@ -1,0 +1,124 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.nav-item {
+    display: flex;
+}
+
+#gameboard {
+    display: flex;
+    flex-wrap: wrap;
+    width: 304px;
+}
+
+.tile {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.source {
+    background-color: yellow !important;
+}
+
+.sink {
+    background-color: white !important;
+    color: white;
+    // animation
+    -webkit-animation: rotate 10s ease 0s infinite normal;
+    -moz-animation: rotate 10s ease 0s infinite normal;
+    -ms-animation: rotate 10s ease 0s infinite normal;
+    animation: rotate 10s ease 0s infinite normal;
+}
+
+@-webkit-keyframes rotate {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.path {
+    border: 4px solid yellow;
+}
+
+.visited {
+    border: 4px solid yellow;
+}
+
+.opSource {
+    background-color: red !important;
+}
+
+.opPath {
+    border: 4px solid red;
+}
+
+.opVisited {
+    border: 4px solid red;
+}
+
+.earth {
+    background-color: #FFFFFF;
+    // background: url('/assets/1.png') no-repeat center;
+}
+
+.rock {
+    background-color: #D2E3C8;
+    // background: url('/assets/2.png') no-repeat center;
+}
+
+.grass {
+    background-color: #86A789;
+    // background: url('/assets/3.png') no-repeat center;
+}
+
+.fire {
+    background-color: #739072;
+    // background: url('/assets/4.png') no-repeat center;
+}
+
+.water {
+    background-color: #4F6F52;
+    // background: url('/assets/5.png') no-repeat center;
+}
+
+#action {
+    margin-top: 8px;
+}
+
+.button {
+    background-color: #332D2D;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
