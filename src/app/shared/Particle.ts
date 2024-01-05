@@ -1,15 +1,27 @@
 export class Particle {
-    constructor(public x: number, public y: number, public radius: number, public dotColor: string, public particleShape: string, public vertex: number) {
+    constructor(public x: number,
+        public y: number,
+        public radius: number,
+        public dotColor: string,
+        public particleShape: string,
+        public vertex: number,
+        public dx: number,
+        public dy: number,
+        public alpha: number) {
+
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.dotColor = dotColor;
         this.particleShape = particleShape; // can be used to encapsulate what state it's in (selected not slected etc.)
         this.vertex = vertex;
+        this.dx = dx;
+        this.dy = dy;
+        this.alpha = alpha;
     }
 
     public update(): void {
-
+        
     }
 
     public draw(context: CanvasRenderingContext2D) {
@@ -21,12 +33,12 @@ export class Particle {
                 context.beginPath();
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fill();
-                context.shadowColor = 'black';
-                context.shadowBlur = 8;
-                context.stroke();
-                // context.lineWidth = 2;
-                // context.strokeStyle = '#FFFFFF';
+                // context.shadowColor = 'red';
+                // context.shadowBlur = 16;
                 // context.stroke();
+                context.lineWidth = 1.5;
+                context.strokeStyle = '#f7f7f7';
+                context.stroke();
                 break;
             case "visited":
                 // square

@@ -1,21 +1,68 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { Particle } from 'src/app/shared/Particle';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ParticleGame } from 'src/app/shared/ParticleGame';
 
 @Component({
   selector: 'app-particle',
   templateUrl: './particle.component.html',
-  styleUrls: ['./particle.component.scss']
+  styleUrls: ['./particle.component.scss'],
+  providers: [{ provide: Window, useValue: window }]
 })
 export class ParticleComponent implements AfterViewInit {
   private context: CanvasRenderingContext2D;
   private canvas: any;
-  private canvasSize: number = 256;
-  private squareSize: number = this.canvasSize / 8;
+  private canvasSize: number;
+  private squareSize: number;
   private game: ParticleGame;
+
+  constructor(private window: Window) {
+
+  }
 
   @ViewChild('myCanvas')
   private myCanvas: ElementRef = {} as ElementRef;
+
+  // @HostListener('window:resize', ['$event'])
+  // public onWindowResize() {
+  //   let width = window.innerWidth;
+  //   let height = window.innerHeight;
+  //   if (width > height) {
+  //     width = height;
+  //   } else if (height > width) {
+  //     height = width;
+  //   }
+  //   for (let i = width; i > 256; i--) {
+  //     if (i % 8 != 0) {
+  //       continue;
+  //     } else {
+  //       width = i;
+  //       height = i;
+  //     }
+  //   }
+  //   this.canvasSize = width;
+  //   this.squareSize = this.canvasSize / 8;
+  // }
+
+  public ngOnInit(): void {
+    let width = this.window.innerWidth;
+    let height = this.window.innerHeight;
+    if (width > height) {
+      width = height;
+    } else if (height > width) {
+      height = width;
+    }
+    for (let i = width; i > 256; i--) {
+      if (i % 8 != 0) {
+        continue;
+      } else {
+        width = i;
+        height = i;
+        break;
+      }
+    }
+    this.canvasSize = width;
+    this.squareSize = this.canvasSize / 8;
+    console.log("Canvas size: " + this.canvasSize);
+  }
 
   ngAfterViewInit(): void {
     this.context = this.myCanvas.nativeElement.getContext('2d');

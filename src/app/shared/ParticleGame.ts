@@ -24,7 +24,7 @@ export class ParticleGame {
     private opVisitedCost: number;
     // visuals
     private particles: Particle[];
-    private colors = ['#e6261f', '#f7d038', '#a3e048', '#34bbe6', '#d23be7'];
+    private colors = ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff'];
     private squares: Square[];
     private particleMap: Particle[][];
 
@@ -36,15 +36,15 @@ export class ParticleGame {
     public handleClick(row: number, col: number): void {
         const index = this.coordToIndex(row, col);
         this.play(index);
-        console.log(`Clicked on square (${row}, ${col}) : ${index}`);
-        console.log("Source: " + this.source);
-        console.log("Sink: " + this.sink);
-        console.log("OpSource: " + this.opSource);
-        console.log("Path: " + this.leastCostPath);
-        console.log("OpPath: " + this.opLeastCostPath);
-        console.log("Gameover: " + this.gameover);
-        console.log("Visited: " + this.visited);
-        console.log("OpVisited: " + this.opVisited);
+        // console.log(`Clicked on square (${row}, ${col}) : ${index}`);
+        // console.log("Source: " + this.source);
+        // console.log("Sink: " + this.sink);
+        // console.log("OpSource: " + this.opSource);
+        // console.log("Path: " + this.leastCostPath);
+        // console.log("OpPath: " + this.opLeastCostPath);
+        // console.log("Gameover: " + this.gameover);
+        // console.log("Visited: " + this.visited);
+        // console.log("OpVisited: " + this.opVisited);
     }
 
     public init(): void {
@@ -106,7 +106,10 @@ export class ParticleGame {
                     Math.random() * squareSize / 3,
                     type,
                     state,
-                    v.getId()
+                    v.getId(),
+                    0,
+                    0,
+                    1
                 );
                 this.particles.push(particle);
             }
@@ -165,7 +168,7 @@ export class ParticleGame {
             for (let col = 0; col < this.cols; col++) {
                 const x = col * this.squareSize;
                 const y = row * this.squareSize;
-                this.squares.push(new Square(x, y, this.squareSize, 'grey', 'initial'));
+                this.squares.push(new Square(x, y, this.squareSize, 'rgba(0,0,0,0.0)', 'initial'));
             }
         }
     }
