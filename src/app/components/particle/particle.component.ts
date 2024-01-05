@@ -95,4 +95,8 @@ export class ParticleComponent implements AfterViewInit {
     this.game.draw();
     window.requestAnimationFrame(this.loop.bind(this));
   }
+
+  public restart(): void {
+    this.init();
+  }
 }

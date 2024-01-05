@@ -21,7 +21,7 @@ export class Particle {
     }
 
     public update(): void {
-        
+
     }
 
     public draw(context: CanvasRenderingContext2D) {
@@ -33,22 +33,37 @@ export class Particle {
                 context.beginPath();
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fill();
-                // context.shadowColor = 'red';
-                // context.shadowBlur = 16;
-                // context.stroke();
-                context.lineWidth = 1.5;
-                context.strokeStyle = '#f7f7f7';
+
+                // context.globalAlpha = 0.1
+                // context.globalCompositeOperation = "destination-over";
+
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
+                // context.lineWidth = 3;
+                // context.strokeStyle = '#f8f9fa';
                 context.stroke();
+                // const time = new Date();
+                // context.rotate(
+                //     ((2 * Math.PI) / 6) * time.getSeconds() +
+                //       ((2 * Math.PI) / 6000) * time.getMilliseconds(),
+                //   );
                 break;
             case "visited":
                 // square
                 // context.fillRect(0, 0, this.radius * 2, this.radius * 2);
                 // break;
                 context.beginPath();
-                context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
+                context.arc(0, 0, this.radius * 1.25, 0, 2 * Math.PI, true);
                 context.fill();
-                context.lineWidth = 1.5;
+                context.lineWidth = 4;
                 context.strokeStyle = 'yellow';
+
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
                 context.stroke();
                 break;
             case "opVisited":
@@ -59,10 +74,15 @@ export class Particle {
                 // context.stroke();
                 // break;
                 context.beginPath();
-                context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
+                context.arc(0, 0, this.radius * 1.25, 0, 2 * Math.PI, true);
                 context.fill();
-                context.lineWidth = 1.5;
+                context.lineWidth = 4;
                 context.strokeStyle = 'black';
+
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
                 context.stroke();
                 break;
             case "source":
@@ -70,8 +90,13 @@ export class Particle {
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fillStyle = "white";
                 context.fill();
-                context.lineWidth = 1.5;
+                context.lineWidth = 4;
                 context.strokeStyle = 'black';
+
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
                 context.stroke();
                 break;
             case "opSource":
@@ -79,7 +104,7 @@ export class Particle {
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fillStyle = "black";
                 context.fill();
-                context.lineWidth = 1.5;
+                context.lineWidth = 4;
                 context.strokeStyle = 'white';
                 context.stroke();
                 break;
@@ -88,17 +113,27 @@ export class Particle {
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fillStyle = "yellow";
                 context.fill();
-                context.lineWidth = 1.5;
+                context.lineWidth = 4;
                 context.strokeStyle = 'black';
+
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
                 context.stroke();
                 break;
             case "gameover":
                 context.beginPath();
-                context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
+                context.arc(0, 0, this.radius * 1.5, 0, 2 * Math.PI, true);
                 context.fillStyle = "green";
                 context.fill();
-                context.lineWidth = 1;
+                context.lineWidth = 4;
                 context.strokeStyle = 'white';
+
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
                 context.stroke();
                 break;
         }

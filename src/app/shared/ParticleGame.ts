@@ -62,7 +62,36 @@ export class ParticleGame {
             }
         } else {
             for (var i = 0; i < this.particles.length; i++) {
-                this.particles[i].x += (Math.random() * 0.3 - 0.15);
+                // if (this.particles[i].x > this.canvasSize || this.particles[i].x < 0) {
+                //     this.particles[i].x += ((Math.random() * 0.3 + 0.50));
+                //     this.particles[i].y += (Math.random() * 0.5 + 0.50);
+                // } else {
+                //     this.particles[i].x += (Math.random() * 0.3 - 0.50);
+                //     this.particles[i].y += (Math.random() * 0.5 - 0.50);
+                // }
+                // if (this.particles[i].y > this.canvasSize || this.particles[i].y < 0) {
+                //     this.particles[i].x += ((Math.random() * 0.3 + 0.50));
+                //     this.particles[i].y += (Math.random() * 0.5 + 0.50);
+                // } else {
+                //     this.particles[i].x += (Math.random() * 0.3 - 0.50);
+                //     this.particles[i].y += (Math.random() * 0.5 - 0.50);
+                // }
+                
+                // if (this.particles[i].y + this.particles[i].radius >= this.canvasSize) {
+                //     this.particles[i].y -= 1;
+                // } else if (this.particles[i].y + this.particles[i].radius <= 0) {
+                //     this.particles[i].y += 1;
+                // } else {
+                //     this.particles[i].y += 1;
+                // }
+                // if (this.particles[i].x + this.particles[i].radius >= this.canvasSize) {
+                //     this.particles[i].x -= 2;
+                // } else if (this.particles[i].x + this.particles[i].radius <= 0) {
+                //     this.particles[i].x += 2;
+                // } else {
+                //     this.particles[i].x += 1;
+                // }
+                this.particles[i].x += ((Math.random() * 0.3 - 0.15));
                 this.particles[i].y += (Math.random() * 0.3 - 0.15);
                 if (this.particles[i].vertex != this.source && this.particles[i].vertex != this.opSource && this.particles[i].vertex != this.sink) {
                     if (this.visited.includes(this.particles[i].vertex)) {
@@ -99,11 +128,16 @@ export class ParticleGame {
             const y = xy[0] * squareSize; // x * square size
             let state = v.getClass();
             let type = this.convertWeightToColor(v.getType());
+            let size = Math.random() * squareSize / 3;
+            while (size < this.squareSize / 8) {
+                size = Math.random() * squareSize / 3;
+            }
             for (let j = 0; j < v.getType(); j++) {
                 let particle = new Particle(
                     x + (squareSize / 2) + Math.random() * squareSize / 4,
                     y + (squareSize / 2) + Math.random() * squareSize / 4,
-                    Math.random() * squareSize / 3,
+                    // Math.random() * squareSize / 3,
+                    size,
                     type,
                     state,
                     v.getId(),
