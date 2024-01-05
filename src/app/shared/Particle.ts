@@ -47,8 +47,8 @@ export class Particle {
                 context.beginPath();
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fill();
-                context.lineWidth = 6;
-                context.strokeStyle = 'white';
+                context.lineWidth = 1.5;
+                context.strokeStyle = 'yellow';
                 context.stroke();
                 break;
             case "opVisited":
@@ -61,7 +61,7 @@ export class Particle {
                 context.beginPath();
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fill();
-                context.lineWidth = 3;
+                context.lineWidth = 1.5;
                 context.strokeStyle = 'black';
                 context.stroke();
                 break;
@@ -70,8 +70,8 @@ export class Particle {
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fillStyle = "white";
                 context.fill();
-                context.lineWidth = 3;
-                context.strokeStyle = 'white';
+                context.lineWidth = 1.5;
+                context.strokeStyle = 'black';
                 context.stroke();
                 break;
             case "opSource":
@@ -79,8 +79,8 @@ export class Particle {
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fillStyle = "black";
                 context.fill();
-                context.lineWidth = 3;
-                context.strokeStyle = 'black';
+                context.lineWidth = 1.5;
+                context.strokeStyle = 'white';
                 context.stroke();
                 break;
             case "sink":
@@ -88,8 +88,8 @@ export class Particle {
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fillStyle = "yellow";
                 context.fill();
-                context.lineWidth = 3;
-                context.strokeStyle = 'yellow';
+                context.lineWidth = 1.5;
+                context.strokeStyle = 'black';
                 context.stroke();
                 break;
             case "gameover":
@@ -97,8 +97,8 @@ export class Particle {
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
                 context.fillStyle = "green";
                 context.fill();
-                context.lineWidth = 3;
-                context.strokeStyle = 'green';
+                context.lineWidth = 1;
+                context.strokeStyle = 'white';
                 context.stroke();
                 break;
         }
