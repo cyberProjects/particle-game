@@ -23,7 +23,7 @@
             "polyfills": [
               "zone.js"
             ],
-            // "baseHref":"/particle-game/",
+            "baseHref":"/particle-game/",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
