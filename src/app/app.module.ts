@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BattleComponent } from './components/battle/battle.component';
 import { ParticleComponent } from './components/particle/particle.component';
+import { MazescrollerComponent } from './components/mazescroller/mazescroller.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BattleComponent,
-    ParticleComponent
+    ParticleComponent,
+    MazescrollerComponent
   ],
   imports: [
     BrowserModule,
