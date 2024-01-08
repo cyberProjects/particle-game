@@ -9,7 +9,7 @@ export class Game {
     constructor(ctx: CanvasRenderingContext2D) {
         this.ctx = ctx;
         this.lastFrameTime = 0;
-        this.tile = new Tile(this, 100, 100, 0, 0, 1, 1, 4, 1);
+        this.tile = new Tile(this, 100, 100, 400, 400, 0, 0, 0, 0, 3 * Math.PI / 2);
     }
 
     public setWindow(width: number, height: number): void {

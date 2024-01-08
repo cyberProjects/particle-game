@@ -7,42 +7,86 @@ export class Tile {
         public height: number,
         public x: number,
         public y: number,
-        public dy: number,
         public dx: number,
-        public weight: number,
-        public maxSpeed: number) {}
+        public dy: number,
+        public mass: number,
+        public velocity: number,
+        public radians: number) {}
 
     public update(): void {
+        // console.log("Degrees: " + this.radians * (180 / Math.PI) + " Radians: " + this.radians);
+        this.dx = this.dxFromAngle(this.radians) + this.velocity;
+        this.dy = this.dyFromAngle(this.radians) + this.velocity;
+        console.log("dx: " + this.dx + " dy: " + this.dy);
         this.x += this.dx;
         this.y += this.dy;
-        // handle x
+        console.log("x: " + this.x + " y: " + this.y);
+        // console.log("x: " + this.x + " y: " + this.y);
+        // this.y += this.dy + this.weight;
+        // impact with left
         if (this.x < 0) {
+            console.log("hitting left border");
             this.x = 0;
-            this.dx = -this.dx;
+            // this.dx = -this.dx;
+            if (this.radians <  3 * Math.PI / 2 && this.radians > Math.PI) {
+                console.log("angle from above");
+                this.radians = 5 * Math.PI / 3;
+            } else {
+                console.log("angle from below (or bug)");
+                this.radians = Math.PI / 3;
+            }
         }
         if (this.x > this.game.getWidth() - this.width) {
             this.x = this.game.getWidth() - this.width;
-            this.dx = -this.dx;
+            // this.dx = -this.dx;
+            this.radians = 4 * Math.PI / 3;
         }
-        // handle y
+        // impact with top
         if (this.y < 0) {
+            console.log("hitting the top border");
             this.y = 0;
-            this.dy = -this.dy;
+            // this.dy = -this.dy; MUST RECALCULATE ANGLE AND DY
+            if (this.radians > 0 && this.radians < Math.PI / 2) {
+                console.log("angle from the left");
+                this.radians = 7 * Math.PI / 4;
+            } else {
+                console.log("angle from the right");
+                this.radians = 5 * Math.PI / 4;
+                console.log(this.radians);
+            }
         }
+        // impact with bottom
         if (this.y > this.game.getHeight() - this.height) {
+            // console.log("hitting bottom border");
             this.y = this.game.getHeight() - this.height;
-            this.dy = -this.dy;
+            // this.dy = -this.dy;
+            if (this.radians > 3 * Math.PI / 2) {
+                console.log("angle from the left");
+                this.radians = Math.PI / 4;
+            } else {
+                // console.log("angle from the right");
+                this.radians = 3 * Math.PI / 4;
+            }
         }
-        // calculate angular motion for both x and y here and adjust their pulls
-        // here weight just pulls straight down
-        this.dy += this.weight;
     }
 
     public draw(ctx: CanvasRenderingContext2D): void {
         ctx.save();
         // ctx.translate(this.x, this.y);
         ctx.fillStyle = "black";
-        ctx.fillRect(this.x, this.y, ctx.canvas.width / 16, ctx.canvas.height / 16);
+        ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.restore();
+    }
+
+    private dxFromAngle(radians: number): number {
+        return Math.cos(radians);
+    }
+
+    private dyFromAngle(radians: number): number {
+        return -Math.sin(radians);
+    }
+
+    private angleFromDxDy(dx: number, dy: number): number {
+        return Math.atan2(dy,dx);
     }
 }
