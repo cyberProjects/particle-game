@@ -91,6 +91,9 @@ export class ParticleComponent implements AfterViewInit {
   }
 
   private loop(): void {
+    if (this.game.getGameover() == true) {
+      this.game = new ParticleGame(this.context, this.squareSize, this.canvasSize)
+    }
     this.game.update();
     this.game.draw();
     window.requestAnimationFrame(this.loop.bind(this));

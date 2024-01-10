@@ -3,15 +3,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-#canvas {
-    // background-color: red;
+    background-color: "#797d62";
 }
 
 #restart {
-    width: 64px;
-    height: 64px;
+    text-align: center;
+    font-size: larger;
     color: white;
-    background-color: skyblue;
 }
