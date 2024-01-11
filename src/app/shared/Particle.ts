@@ -37,13 +37,13 @@ export class Particle {
                 // context.globalAlpha = 0.1
                 // context.globalCompositeOperation = "destination-over";
 
-                context.shadowColor = "#000000";
-                context.shadowBlur = 8;
-                context.shadowOffsetX = 2;
-                context.shadowOffsetY = 2;
+                // context.shadowColor = "#233142";
+                // context.shadowBlur = 8;
+                // context.shadowOffsetX = 2;
+                // context.shadowOffsetY = 2;
                 // context.lineWidth = 3;
                 // context.strokeStyle = '#f8f9fa';
-                context.stroke();
+                // context.stroke();
                 // const time = new Date();
                 // context.rotate(
                 //     ((2 * Math.PI) / 6) * time.getSeconds() +
@@ -58,7 +58,8 @@ export class Particle {
                 context.arc(0, 0, this.radius * 1.25, 0, 2 * Math.PI, true);
                 context.fill();
                 context.lineWidth = 4;
-                context.strokeStyle = 'yellow';
+                // context.strokeStyle = "rgba(255, 201, 60,.5)";
+                context.strokeStyle = "rgba(0, 0, 0,.5)";
 
                 context.shadowColor = "#000000";
                 context.shadowBlur = 8;
@@ -77,7 +78,7 @@ export class Particle {
                 context.arc(0, 0, this.radius * 1.25, 0, 2 * Math.PI, true);
                 context.fill();
                 context.lineWidth = 4;
-                context.strokeStyle = 'black';
+                context.strokeStyle = "rgba(186, 0, 33,.5)";
 
                 context.shadowColor = "#000000";
                 context.shadowBlur = 8;
@@ -88,10 +89,10 @@ export class Particle {
             case "source":
                 context.beginPath();
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
-                context.fillStyle = "white";
+                context.fillStyle = 'rgba(255,255,255,0.5)';
                 context.fill();
                 context.lineWidth = 4;
-                context.strokeStyle = 'black';
+                context.strokeStyle = 'rgba(0,0,0,0.8)';
 
                 context.shadowColor = "#000000";
                 context.shadowBlur = 8;
@@ -102,19 +103,25 @@ export class Particle {
             case "opSource":
                 context.beginPath();
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
-                context.fillStyle = "black";
+                context.fillStyle = 'rgba(0,0,0,0.5)';
                 context.fill();
                 context.lineWidth = 4;
-                context.strokeStyle = 'white';
+                context.strokeStyle = 'rgba(255,255,255,0.8)';
+                
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
                 context.stroke();
                 break;
             case "sink":
                 context.beginPath();
                 context.arc(0, 0, this.radius, 0, 2 * Math.PI, true);
-                context.fillStyle = "yellow";
+                // context.fillStyle = "rgba(228, 97, 97)";
+                context.fillStyle = "rgba(212,175,55)";
                 context.fill();
                 context.lineWidth = 4;
-                context.strokeStyle = 'black';
+                context.strokeStyle = 'rgba(255,255,255,.8';
 
                 context.shadowColor = "#000000";
                 context.shadowBlur = 8;
@@ -122,13 +129,28 @@ export class Particle {
                 context.shadowOffsetY = 2;
                 context.stroke();
                 break;
-            case "gameover":
+            case "win":
                 context.beginPath();
                 context.arc(0, 0, this.radius * 1.5, 0, 2 * Math.PI, true);
-                context.fillStyle = "green";
+                context.fillStyle = "rgba(162, 193, 28, .5)";
                 context.fill();
                 context.lineWidth = 4;
-                context.strokeStyle = 'white';
+                // context.strokeStyle = "rgba(212,175,55)";
+                context.strokeStyle = "rgba(192,192,192,.8)";
+
+                context.shadowColor = "#000000";
+                context.shadowBlur = 8;
+                context.shadowOffsetX = 2;
+                context.shadowOffsetY = 2;
+                context.stroke();
+                break;
+            case "lose":
+                context.beginPath();
+                context.arc(0, 0, this.radius * 1.5, 0, 2 * Math.PI, true);
+                context.fillStyle = "red";
+                context.fill();
+                context.lineWidth = 4;
+                context.strokeStyle = "rgba(186, 0, 33,.8)";
 
                 context.shadowColor = "#000000";
                 context.shadowBlur = 8;

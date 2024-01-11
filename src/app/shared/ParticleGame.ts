@@ -16,17 +16,20 @@ export class ParticleGame {
     private source: number;
     private visited: number[];
     private visitedCost: number;
+    private playerComplete: boolean;
+    private playerWin: boolean;
+    private playerCost: number;
     // opponent
     private opLeastCostPath: number[];
     private opLeastCost: number;
     private opSource: number;
     private opVisited: number[];
     private opVisitedCost: number;
+    private opComplete: boolean;
     // visuals
     private particles: Particle[];
-    private colors = ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff'];
+    private colors = ['rgba(182,67,90,.5)', 'rgba(205,127,50,.5)', 'rgba(192,192,192,.5)', 'rgba(181,166,66,.5)', 'rgba(212,175,55,.5)'];
     private squares: Square[];
-    private particleMap: Particle[][];
 
     constructor(private context: CanvasRenderingContext2D, private squareSize: number, private canvasSize: number) {
         this.buildGraph();
@@ -35,78 +38,67 @@ export class ParticleGame {
 
     public handleClick(row: number, col: number): void {
         const index = this.coordToIndex(row, col);
+        console.log("Index: " + index);
         this.play(index);
-        // console.log(`Clicked on square (${row}, ${col}) : ${index}`);
-        // console.log("Source: " + this.source);
-        // console.log("Sink: " + this.sink);
-        // console.log("OpSource: " + this.opSource);
-        // console.log("Path: " + this.leastCostPath);
-        // console.log("OpPath: " + this.opLeastCostPath);
-        // console.log("Gameover: " + this.gameover);
-        // console.log("Visited: " + this.visited);
-        // console.log("OpVisited: " + this.opVisited);
+    }
+
+    public isGameover(): boolean {
+        return this.gameover;
     }
 
     public init(): void {
         this.makeSquares();
         this.makeParticles(4, this.squareSize);
         this.initStates();
+        this.playerComplete = false;
+        this.opComplete = false;
     }
 
     public update(): void {
-        if (this.gameover == true) {
+        if (this.playerComplete == true) {
+            this.gameover = true;
+            console.log("The game is over! Tallying...");
+            this.tally();
+            console.log("Tallying complete! Yay!");
+            if (this.playerCost <= this.opLeastCost) {
+                console.log("Player has lower cost.");
+                this.playerWin = true;
+            } else {
+                console.log("Player has higher cost.");
+                this.playerWin = false;
+            }
             for (let i = 0; i < this.particles.length; i++) {
                 if (this.particles[i].vertex == this.sink) {
-                    this.particles[i].particleShape = "gameover";
+                    if (this.playerWin == true) {
+                        this.particles[i].particleShape = "win";
+                        continue;
+                    } else {
+                        this.particles[i].particleShape = "lose";
+                        continue;
+                    }
                 }
             }
+            console.log("Player wins: " + this.playerWin);
+            console.log("Player cost: " + this.playerCost);
+            console.log("Player least cost: " + this.leastCost);
+            console.log("Opponent least cost: " + this.opLeastCost);
         } else {
             for (var i = 0; i < this.particles.length; i++) {
-                // if (this.particles[i].x > this.canvasSize || this.particles[i].x < 0) {
-                //     this.particles[i].x += ((Math.random() * 0.3 + 0.50));
-                //     this.particles[i].y += (Math.random() * 0.5 + 0.50);
-                // } else {
-                //     this.particles[i].x += (Math.random() * 0.3 - 0.50);
-                //     this.particles[i].y += (Math.random() * 0.5 - 0.50);
-                // }
-                // if (this.particles[i].y > this.canvasSize || this.particles[i].y < 0) {
-                //     this.particles[i].x += ((Math.random() * 0.3 + 0.50));
-                //     this.particles[i].y += (Math.random() * 0.5 + 0.50);
-                // } else {
-                //     this.particles[i].x += (Math.random() * 0.3 - 0.50);
-                //     this.particles[i].y += (Math.random() * 0.5 - 0.50);
-                // }
-                
-                // if (this.particles[i].y + this.particles[i].radius >= this.canvasSize) {
-                //     this.particles[i].y -= 1;
-                // } else if (this.particles[i].y + this.particles[i].radius <= 0) {
-                //     this.particles[i].y += 1;
-                // } else {
-                //     this.particles[i].y += 1;
-                // }
-                // if (this.particles[i].x + this.particles[i].radius >= this.canvasSize) {
-                //     this.particles[i].x -= 2;
-                // } else if (this.particles[i].x + this.particles[i].radius <= 0) {
-                //     this.particles[i].x += 2;
-                // } else {
-                //     this.particles[i].x += 1;
-                // }
                 this.particles[i].x += ((Math.random() * 0.3 - 0.15));
                 this.particles[i].y += (Math.random() * 0.3 - 0.15);
                 if (this.particles[i].vertex != this.source && this.particles[i].vertex != this.opSource && this.particles[i].vertex != this.sink) {
-                    if (this.visited.includes(this.particles[i].vertex)) {
-                        this.particles[i].particleShape = "visited";
-                    }
                     if (this.opVisited.includes(this.particles[i].vertex)) {
                         this.particles[i].particleShape = "opVisited";
+                        continue;
                     }
+                    if (this.visited.includes(this.particles[i].vertex)) {
+                        this.particles[i].particleShape = "visited";
+                        continue;
+                    }
+                    this.particles[i].particleShape = "unselected";
                 }
             }
         }
-        // for (var i = 0; i < this.particles.length; i++) {
-        //     this.particles[i].x += (Math.random() * 0.3 - 0.15);
-        //     this.particles[i].y += (Math.random() * 0.3 - 0.15);
-        // }
     }
 
     public draw(): void {
@@ -151,6 +143,10 @@ export class ParticleGame {
         console.log("particles count: " + this.particles.length);
     }
 
+    public drawResults(): void {
+
+    }
+
     private convertWeightToColor(weight: number): string {
         return this.colors[weight - 1];
     }
@@ -168,29 +164,6 @@ export class ParticleGame {
             }
         }
     }
-
-    // private makeParticles(n: number, squareSize: number): Particle[] {
-    //     let particles = [];
-    //     for (let row = 0; row < this.rows; row++) {
-    //         for (let col = 0; col < this.cols; col++) {
-    //             const x = col * squareSize;
-    //             const y = row * squareSize;
-    //             let color = this.color();
-    //             for (let i = 0; i < n; i++) {
-    //                 particles.push(
-    //                     new Particle(
-    //                         x + (squareSize / 2) + Math.random() * squareSize / 4,
-    //                         y + (squareSize / 2) + Math.random() * squareSize / 4,
-    //                         Math.random() * squareSize / 3,
-    //                         color,
-    //                         "circle"
-    //                     )
-    //                 );
-    //             }
-    //         }
-    //     }
-    //     return particles;
-    // }
 
     private color(): string {
         return this.colors[Math.floor(Math.random() * (4 - 0)) + 0];
@@ -215,6 +188,7 @@ export class ParticleGame {
     }
 
     public coordToIndex(x: number, y: number): number {
+        // TODO: REVERT
         return y * 8 + x;
     }
 
@@ -281,47 +255,46 @@ export class ParticleGame {
     }
 
     public play(vertexId: number): void {
-        if (this.gameover) {
-            console.log("The game is Over. Sorry!");
+        if (vertexId == this.source) {
+            console.debug("Can't remove source from visited spaces.");
+        } else if (this.visited.includes(vertexId)) {
+            console.debug("Space already visited. Removing it from the list.");
+            this.visited.length = this.visited.indexOf(vertexId, 0);
         } else {
-            let complete = false;
-            let opComplete = false;
-            if (vertexId == this.source) {
-                console.log("Can't remove source from visited spaces.");
-            } else if (this.visited.includes(vertexId)) {
-                console.log("Space already visited. Removing it from the list.");
-                this.visited.length = this.visited.indexOf(vertexId, 0);
-            } else {
-                if (this.adjacencyMatrix[this.visited[this.visited.length - 1]][vertexId] != Infinity) {
-                    console.log("Visiting space.");
-                    this.visited.push(vertexId);
-                    if (vertexId == this.sink) {
-                        complete = true;
-                    } else {
-                        for (let opVertex of this.opLeastCostPath) {
-                            if (this.opVisited.includes(opVertex) == false) {
-                                this.opVisited.push(opVertex);
-                                break;
-                            }
-                        }
-                        if (this.opVisited.length == this.opLeastCostPath.length) {
-                            opComplete = true;
-                        }
+            if (this.adjacencyMatrix[this.visited[this.visited.length - 1]][vertexId] != Infinity) {
+                console.log("Visiting space.");
+                this.visited.push(vertexId);
+                if (vertexId == this.sink) {
+                    console.log("Player found the sink.");
+                    this.playerComplete = true;
+                    if (this.opVisited.includes(this.sink)) {
+                        console.log("Opponent found the sink.");
+                        this.opComplete = true;
                     }
                 } else {
-                    console.log("Not a legal move.");
+                    for (let opVertex of this.opLeastCostPath) {
+                        if (this.opVisited.includes(opVertex) == false) {
+                            console.log("Opponent moving.");
+                            this.opVisited.push(opVertex);
+                            break;
+                        }
+                    }
+                    if (this.opVisited.length == this.opLeastCostPath.length) {
+                        this.opComplete = true;
+                    }
                 }
-            }
-            if (complete == true) {
-                console.log("You win!");
-                this.gameover = true;
-            } else if (opComplete == true) {
-                console.log("You lose!");
-                this.gameover = true;
             } else {
-                console.log("Not sure how we got here...")
+                console.log("Not a legal move.");
             }
         }
+    }
+
+    private tally(): void {
+        let playerWeight = 0;
+        this.visited.forEach(vertex => {
+            playerWeight += this.vertices[vertex].getType();
+        });
+        this.playerCost = playerWeight;
     }
 
     private buildGraph(): void {
@@ -348,10 +321,10 @@ export class ParticleGame {
         for (let i = 0; i < 64; i++) {
             const vertex = this.getVertices()[i];
 
-            let left = [0,1,2,3,4,5,6,7];
-            let right = [63,62,61,60,59,58,57,56];
-            let top = [0,8,16,24,32,40,48,56];
-            let bottom = [7,15,23,31,39,47,55,63];
+            let left = [0, 1, 2, 3, 4, 5, 6, 7];
+            let right = [63, 62, 61, 60, 59, 58, 57, 56];
+            let top = [0, 8, 16, 24, 32, 40, 48, 56];
+            let bottom = [7, 15, 23, 31, 39, 47, 55, 63];
 
             // Connect to the left neighbor
             if (!left.includes(i)) {
@@ -420,14 +393,14 @@ export class ParticleGame {
             //         let weight = vertex.getType() + neighbor.getType();
             //         this.addEdge(vertex.getId(), neighbor.getId(), weight);
             //     }
-            }
-            while (this.initializePlayers() == false) {
-                console.log("Initiliazing players...")
-                this.initializePlayers();
-            };
-            this.visitedCost = this.calculateLeastCost(this.visited);
-            this.opVisitedCost = this.calculateLeastCost(this.opVisited);
         }
+        while (this.initializePlayers() == false) {
+            console.log("Initiliazing players...")
+            this.initializePlayers();
+        };
+        this.visitedCost = this.calculateLeastCost(this.visited);
+        this.opVisitedCost = this.calculateLeastCost(this.opVisited);
+    }
 
     private initializePlayers(): boolean {
         // initialize state 1

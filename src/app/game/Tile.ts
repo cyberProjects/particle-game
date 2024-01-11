@@ -14,19 +14,19 @@ export class Tile {
         public radians: number) {}
 
     public update(): void {
-        // console.log("Degrees: " + this.radians * (180 / Math.PI) + " Radians: " + this.radians);
-        this.dx = this.dxFromAngle(this.radians) + this.velocity;
-        this.dy = this.dyFromAngle(this.radians) + this.velocity;
-        console.log("dx: " + this.dx + " dy: " + this.dy);
-        this.x += this.dx;
-        this.y += this.dy;
-        console.log("x: " + this.x + " y: " + this.y);
+        this.dx = this.dxFromAngle(this.radians);
+        this.dy = this.dyFromAngle(this.radians);
+        // console.log("dx: " + this.dx + " dy: " + this.dy);
+        this.x += this.dx + this.velocity;
+        this.y += this.dy + this.mass;
+        // console.log("x: " + this.x + " y: " + this.y);
         // console.log("x: " + this.x + " y: " + this.y);
         // this.y += this.dy + this.weight;
         // impact with left
         if (this.x < 0) {
             console.log("hitting left border");
             this.x = 0;
+            this.slowDown(5);
             // this.dx = -this.dx;
             if (this.radians <  3 * Math.PI / 2 && this.radians > Math.PI) {
                 console.log("angle from above");
@@ -38,13 +38,15 @@ export class Tile {
         }
         if (this.x > this.game.getWidth() - this.width) {
             this.x = this.game.getWidth() - this.width;
+            this.slowDown(5);
             // this.dx = -this.dx;
-            this.radians = 4 * Math.PI / 3;
+            this.radians = 2 * Math.PI / 3;
         }
         // impact with top
         if (this.y < 0) {
             console.log("hitting the top border");
             this.y = 0;
+            this.slowDown(5);
             // this.dy = -this.dy; MUST RECALCULATE ANGLE AND DY
             if (this.radians > 0 && this.radians < Math.PI / 2) {
                 console.log("angle from the left");
@@ -57,16 +59,20 @@ export class Tile {
         }
         // impact with bottom
         if (this.y > this.game.getHeight() - this.height) {
-            // console.log("hitting bottom border");
+            console.log("hitting bottom border");
             this.y = this.game.getHeight() - this.height;
+            this.slowDown(5);
             // this.dy = -this.dy;
-            if (this.radians > 3 * Math.PI / 2) {
+            if (this.radians > 3 * Math.PI / 2) { // IV
                 console.log("angle from the left");
-                this.radians = Math.PI / 4;
+                this.radians = Math.PI / 4; // I
             } else {
-                // console.log("angle from the right");
-                this.radians = 3 * Math.PI / 4;
+                console.log("angle from the right");
+                this.radians = 3 * Math.PI / 4; // II
             }
+        }
+        if (this.velocity == 0) {
+            this.speedUp(4);
         }
     }
 
@@ -88,5 +94,17 @@ export class Tile {
 
     private angleFromDxDy(dx: number, dy: number): number {
         return Math.atan2(dy,dx);
+    }
+
+    private slowDown(rate: number): void {
+        if (this.velocity > 0) {
+            this.velocity -= rate;
+        }
+    }
+
+    private speedUp(rate: number): void {
+        if (this.velocity < 50) {
+            this.velocity += rate;
+        }
     }
 }

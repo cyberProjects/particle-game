@@ -90,9 +90,11 @@ export class ParticleComponent implements AfterViewInit {
     this.loop();
   }
 
-  private loop(): void {
+  private async loop(): Promise<any> {
     if (this.game.getGameover() == true) {
-      this.game = new ParticleGame(this.context, this.squareSize, this.canvasSize)
+      await this.delay(3000);
+      this.game = new ParticleGame(this.context, this.squareSize, this.canvasSize);
+      this.game.drawResults();
     }
     this.game.update();
     this.game.draw();
@@ -102,4 +104,8 @@ export class ParticleComponent implements AfterViewInit {
   public restart(): void {
     this.init();
   }
+
+  public delay(ms: number): Promise<boolean> {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 }
